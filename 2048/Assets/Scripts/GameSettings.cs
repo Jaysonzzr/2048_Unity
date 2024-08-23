@@ -18,10 +18,20 @@ public class GameSettings : MonoBehaviour
         {
             Application.Quit();
         }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            ResetGame();
+        }
     }
 
     public void ReloadGame()
     {
+        SceneManager.LoadScene(0);
+    }
+
+    public void ResetGame()
+    {
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene(0);
     }
 
