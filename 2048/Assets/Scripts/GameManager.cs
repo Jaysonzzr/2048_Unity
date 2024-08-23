@@ -1,6 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,12 +9,16 @@ public class GameManager : MonoBehaviour
     public Transform gridParent;   // Grid的父对象
     public Tile[,] grid = new Tile[4, 4];  // 4x4的Tile网格
     public int score = 0;
+    public int bestScore = 0;
     public TextMeshProUGUI scoreText;  // 显示分数的TextMeshPro
+    public TextMeshProUGUI bestScoreText;
     public GameObject gameEndPopUp;  // 游戏结束界面
     public TextMeshProUGUI gameEndMEssage;
 
     void Start()
     {
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        UpdateBestScoreUI();
         InitializeGrid();
         SpawnInitialTiles();
         UpdateScore(0);
@@ -92,6 +97,18 @@ public class GameManager : MonoBehaviour
     {
         score += points;
         scoreText.text = "Score: " + score.ToString();
+        
+        if (score > bestScore)
+        {
+            bestScore = score;
+            PlayerPrefs.SetInt("BestScore", bestScore); // Save the new best score locally
+            UpdateBestScoreUI();
+        }
+    }
+
+    void UpdateBestScoreUI()
+    {
+        bestScoreText.text = "Best Score: " + bestScore.ToString();
     }
 
     void Move(Vector2 direction)
@@ -227,12 +244,13 @@ public class GameManager : MonoBehaviour
             if (CheckGameOver())
             {
                 gameEndMEssage.SetText("GAME OVER\nYOU LOSE!");
-                gameEndPopUp.SetActive(true);
+                StartCoroutine(FadeInPopUp(gameEndPopUp.GetComponent<CanvasGroup>(), 3f, 1.5f));
             }
             else if (Check2048())
             {
                 gameEndMEssage.SetText("GAME OVER\nYOU WIN!");
                 gameEndPopUp.SetActive(true);
+                StartCoroutine(FadeInPopUp(gameEndPopUp.GetComponent<CanvasGroup>(), 1f, 1.5f));
             }
         }
     }
@@ -293,5 +311,19 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private IEnumerator FadeInPopUp(CanvasGroup canvasGroup, float delay, float duration)
+    {
+        yield return new WaitForSeconds(delay);
+
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Clamp01(elapsedTime / duration);
+            yield return null;
+        }
+        canvasGroup.alpha = 1f; // Ensure the popup is fully visible at the end
     }
 }
