@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public Tile[,] grid = new Tile[4, 4];  // 4x4的Tile网格
     public int score = 0;
     public TextMeshProUGUI scoreText;  // 显示分数的TextMeshPro
+    public GameObject gameEndPopUp;  // 游戏结束界面
+    public TextMeshProUGUI gameEndMEssage;
 
     void Start()
     {
@@ -224,8 +226,13 @@ public class GameManager : MonoBehaviour
             
             if (CheckGameOver())
             {
-                // 触发游戏结束逻辑，比如显示Game Over消息
-                Debug.Log("Game Over");
+                gameEndMEssage.SetText("GAME OVER\nYOU LOSE!");
+                gameEndPopUp.SetActive(true);
+            }
+            else if (Check2048())
+            {
+                gameEndMEssage.SetText("GAME OVER\nYOU WIN!");
+                gameEndPopUp.SetActive(true);
             }
         }
     }
@@ -271,5 +278,20 @@ public class GameManager : MonoBehaviour
         }
 
         return true;  // 没有可移动或可合并的Tile，游戏结束
+    }
+
+    bool Check2048()
+    {
+        for (int x = 0; x < 4; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                if (grid[x, y].value == 2048)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

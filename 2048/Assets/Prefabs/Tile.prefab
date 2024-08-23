@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   valueText: {fileID: 2131454606496635975}
+  tileImage: {fileID: 2131454605139289473}
 --- !u!1 &2131454606496635973
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,8 +168,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4282795590
+  m_fontColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
