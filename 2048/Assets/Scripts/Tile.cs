@@ -30,6 +30,9 @@ public class Tile : MonoBehaviour
             valueText.text = value.ToString();
             SetTileTransparency(1);
 
+            // 根据Tile的值调整字体大小
+            AdjustFontSize();
+
             // 根据Tile的值，可以在这里更改Tile的颜色或其他属性
             tileImage.color = GetColorBasedOnValue(value);
         }
@@ -41,6 +44,22 @@ public class Tile : MonoBehaviour
         Color color = tileImage.color;
         color.a = alpha;
         tileImage.color = color;
+    }
+
+    private void AdjustFontSize()
+    {
+        if (value < 100)
+        {
+            valueText.fontSize = 72; // 一/两位数
+        }
+        else if (value < 1000)
+        {
+            valueText.fontSize = 52; // 三位数
+        }
+        else
+        {
+            valueText.fontSize = 40; // 四位数及以上
+        }
     }
 
     private Color GetColorBasedOnValue(int value)

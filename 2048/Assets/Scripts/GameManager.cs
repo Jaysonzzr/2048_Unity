@@ -21,19 +21,19 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !CheckGameOver() && !Check2048())
         {
             Move(Vector2.up);   // 向上移动
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && !CheckGameOver() && !Check2048())
         {
             Move(Vector2.down); // 向下移动
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) && !CheckGameOver() && !Check2048())
         {
             Move(Vector2.left); // 向左移动
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && !CheckGameOver() && !Check2048())
         {
             Move(Vector2.right); // 向右移动
         }
